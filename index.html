@@ -588,17 +588,6 @@
             .gallery-grid { grid-template-columns: 1fr; }
         }
 
-            .flash-message {
-            margin-top: 20px;
-            text-align: center;
-        }
-            .flash-message.success {
-              color: #c084fc;
-        }
-            .flash-message.error {
-            color: #f87171;
-        }
-
     </style>
 </head>
 <body>
@@ -627,7 +616,7 @@
 <!-- HERO with VIDEO -->
 <section class="hero" id="homeSection">
     <video autoplay loop muted class="back-video">
-        <source src="images/video.mp4" type="video/mp4">
+        <source src="static/images/video.mp4" type="video/mp4">
     </video>
     <div class="hero-content" data-aos="fade-up">
         <p class="tagline">✤ BY FASHION ICONS, LOYAL FAMILIES & MODERN GENTLEMEN ✤</p>
@@ -652,68 +641,59 @@
 <section id="gallerySection">
     <div class="section-title" data-aos="fade-up">Loved by Style Icons, <span>Families & Gentlemen</span></div>
     <div class="gallery-grid">
-        <div class="gallery-item"><img src="images/salon1.jpg" alt="Salon"></div>
-        <div class="gallery-item"><img src="images/salon2.jpg" alt="Haircut"></div>
-        <div class="gallery-item"><img src="images/salon3.jpg" alt="Grooming"></div>
-        <div class="gallery-item"><img src="images/salon4.jpg" alt="Interior"></div>
-        <div class="gallery-item"><img src="images/salon5.jpg" alt="Style"></div>
-        <div class="gallery-item"><img src="images/salon6.jpg" alt="Style"></div>
+        <div class="gallery-item"><img src="static/images/salon1.jpg" alt="Salon"></div>
+        <div class="gallery-item"><img src="static/images/salon2.jpg" alt="Haircut"></div>
+        <div class="gallery-item"><img src="static/images/salon3.jpg" alt="Grooming"></div>
+        <div class="gallery-item"><img src="static/images/salon4.jpg" alt="Interior"></div>
+        <div class="gallery-item"><img src="static/images/salon5.jpg" alt="Style"></div>
+        <div class="gallery-item"><img src="static/images/salon6.jpg" alt="Style"></div>
     </div>
 </section>
 
-<!-- REVIEWS + FORM -->
+<!-- REVIEWS + FORM (Fixed for GitHub Pages) -->
 <section id="reviewsSection">
     <div class="section-title" data-aos="fade-up">Customer <span>Reviews</span></div>
     <div class="review-form-wrapper" data-aos="fade-up">
         <h3>Share Your Experience</h3>
-        <form action="/submit-review" method="POST">
-            <input type="text" name="review_name" placeholder="Your Name" required>
-            <select name="rating" required>
+        <form id="reviewForm">
+            <input type="text" id="reviewName" placeholder="Your Name" required>
+            <select id="reviewRating" required>
                 <option value="">Select Rating</option>
                 <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
                 <option value="4">⭐⭐⭐⭐ Good</option>
                 <option value="3">⭐⭐⭐ Average</option>
+                <option value="2">⭐⭐ Fair</option>
+                <option value="1">⭐ Poor</option>
             </select>
-            <textarea name="comment" rows="3" placeholder="Your review..." required></textarea>
+            <textarea id="reviewComment" rows="3" placeholder="Your review..." required></textarea>
             <button type="submit">Submit Review →</button>
         </form>
     </div>
-    <div class="reviews-grid" data-aos="fade-up">
-        {% for review in reviews %}
-        <div class="review-card">
-            <strong>{{ review.name }}</strong>
-            <div class="stars">{% for i in range(1,6) %}{% if i <= review.rating %}⭐{% else %}☆{% endif %}{% endfor %}</div>
-            <p>"{{ review.comment }}"</p>
-            <small>{{ review.created_at }}</small>
-        </div>
-        {% else %}
+    <div class="reviews-grid" id="reviewsGrid" data-aos="fade-up">
         <p style="text-align:center; grid-column:1/-1; color:#aaa;">No reviews yet. Be the first!</p>
-        {% endfor %}
     </div>
 </section>
 
-<!-- BOOKING SECTION -->
+<!-- BOOKING SECTION (Fixed for GitHub Pages) -->
 <section id="bookingSection">
     <div class="section-title" data-aos="fade-up">Book Your <span>Appointment</span></div>
     <div class="booking-wrapper" data-aos="zoom-in">
-        <form action="/book" method="POST">
-            <input type="text" name="name" placeholder="Full Name" required>
-            <input type="tel" name="phone" placeholder="WhatsApp Number" required>
-            <input type="date" name="date" required>
-            <select name="service" required>
+        <form id="bookingForm">
+            <input type="text" id="bookingName" placeholder="Full Name" required>
+            <input type="tel" id="bookingPhone" placeholder="WhatsApp Number" required>
+            <input type="date" id="bookingDate" required>
+            <select id="bookingService" required>
                 <option value="">Select Service</option>
-                <option value="Haircut">Haircut - PKR 1,500</option>
-                <option value="Beard">Beard - PKR 1,500</option>
-                <option value="Shaving">Shaving - PKR 1,000</option>
-                <option value="Hair + Beard">Hair + Beard - PKR 2,500</option>
+                <option value="Haircut - PKR 1,500">Haircut - PKR 1,500</option>
+                <option value="Beard - PKR 1,500">Beard - PKR 1,500</option>
+                <option value="Shaving - PKR 1,000">Shaving - PKR 1,000</option>
+                <option value="Hair + Beard - PKR 2,500">Hair + Beard - PKR 2,500</option>
+                <option value="Hair + Shaving - PKR 2,000">Hair + Shaving - PKR 2,000</option>
+                <option value="Grooming Package - PKR 5,000">Grooming Package - PKR 5,000</option>
             </select>
             <button type="submit">Confirm Booking →</button>
         </form>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% for category, message in messages %}
-                <p class="flash-message {{ category }}">{{ message }}</p>
-            {% endfor %}
-        {% endwith %}
+        <div id="bookingMessage" style="margin-top:20px; text-align:center; font-size:0.85rem;"></div>
         <p style="margin-top:20px; text-align:center; font-size:0.75rem; color:#aaa;">✨ We'll confirm within 10 minutes ✨</p>
     </div>
 </section>
@@ -744,7 +724,7 @@
     <div class="modal-container">
         <span class="modal-close" id="closeSignupModal">&times;</span>
         <h2>📝 Create Account</h2>
-        <form id="signupForm">
+        <form id="signupFormElem">
             <input type="text" placeholder="Full Name" required>
             <input type="email" placeholder="Email" required>
             <input type="password" placeholder="Password" required>
@@ -824,7 +804,7 @@
 
         // Form handlers (demo alerts)
         const loginForm = document.getElementById('loginForm');
-        const signupFormElem = document.getElementById('signupForm');
+        const signupFormElem = document.getElementById('signupFormElem');
         if (loginForm) {
             loginForm.addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -839,6 +819,123 @@
                 closeModal(signupModal);
             });
         }
+
+        // ========== REVIEWS (Local Storage) ==========
+        let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+        
+        function displayReviews() {
+            const reviewsGrid = document.getElementById('reviewsGrid');
+            if (!reviewsGrid) return;
+            
+            if (reviews.length === 0) {
+                reviewsGrid.innerHTML = '<p style="text-align:center; grid-column:1/-1; color:#aaa;">No reviews yet. Be the first!</p>';
+                return;
+            }
+            
+            let html = '';
+            for (let i = 0; i < reviews.length; i++) {
+                const review = reviews[i];
+                let stars = '';
+                for (let s = 1; s <= 5; s++) {
+                    if (s <= review.rating) {
+                        stars += '⭐';
+                    } else {
+                        stars += '☆';
+                    }
+                }
+                html += `
+                    <div class="review-card">
+                        <strong>${escapeHtml(review.name)}</strong>
+                        <div class="stars">${stars}</div>
+                        <p>"${escapeHtml(review.comment)}"</p>
+                        <small>${review.date}</small>
+                    </div>
+                `;
+            }
+            reviewsGrid.innerHTML = html;
+        }
+        
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+        
+        // Submit review
+        const reviewForm = document.getElementById('reviewForm');
+        if (reviewForm) {
+            reviewForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = document.getElementById('reviewName')?.value;
+                const rating = parseInt(document.getElementById('reviewRating')?.value);
+                const comment = document.getElementById('reviewComment')?.value;
+                const date = new Date().toLocaleDateString();
+                
+                if (!name || !rating || !comment) {
+                    alert('Please fill all fields');
+                    return;
+                }
+                
+                reviews.unshift({ name: name, rating: rating, comment: comment, date: date });
+                localStorage.setItem('reviews', JSON.stringify(reviews));
+                displayReviews();
+                
+                // Clear form
+                document.getElementById('reviewName').value = '';
+                document.getElementById('reviewRating').value = '';
+                document.getElementById('reviewComment').value = '';
+                
+                alert('✅ Thank you for your review!');
+            });
+        }
+        
+        // ========== BOOKING (Local Storage + WhatsApp) ==========
+        const bookingForm = document.getElementById('bookingForm');
+        if (bookingForm) {
+            bookingForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = document.getElementById('bookingName')?.value;
+                const phone = document.getElementById('bookingPhone')?.value;
+                const date = document.getElementById('bookingDate')?.value;
+                const service = document.getElementById('bookingService')?.value;
+                
+                if (!name || !phone || !date || !service) {
+                    alert('Please fill all fields');
+                    return;
+                }
+                
+                // Save to local storage
+                let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+                bookings.push({ name: name, phone: phone, date: date, service: service, bookingDate: new Date().toLocaleString() });
+                localStorage.setItem('bookings', JSON.stringify(bookings));
+                
+                // Send to WhatsApp
+                const message = `New Booking:%0A%0AName: ${name}%0APhone: ${phone}%0ADate: ${date}%0AService: ${service}`;
+                const whatsappUrl = `https://wa.me/923111261269?text=${message}`;
+                
+                const msgDiv = document.getElementById('bookingMessage');
+                if (msgDiv) {
+                    msgDiv.innerHTML = '<p style="color: #c084fc;">✅ Booking saved! Redirecting to WhatsApp...</p>';
+                }
+                
+                setTimeout(() => {
+                    window.open(whatsappUrl, '_blank');
+                }, 1000);
+                
+                // Clear form
+                document.getElementById('bookingName').value = '';
+                document.getElementById('bookingPhone').value = '';
+                document.getElementById('bookingDate').value = '';
+                document.getElementById('bookingService').value = '';
+            });
+        }
+        
+        // Display existing reviews on load
+        displayReviews();
     })();
 </script>
 </body>
